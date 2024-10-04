@@ -1,0 +1,60 @@
+<form [formGroup]="rf" class="container">
+  <mat-dialog-content>
+    <div class="container-fluid card text-center">
+      <div class=" text-center" style="color: #3f51b5">
+        <h2> KHỞI TẠO THÔNG TIN KHÁCH HÀNG </h2>
+      </div>
+      <div class="row">
+        <mat-form-field appearance="outline" class="col-6">
+          <mat-label> Khách hàng</mat-label>
+          <input matInput formControlName="customerName" required>
+          <mat-error
+            *ngIf="rf.controls.customerName.dirty && rf.controls.customerName.hasError('required')">
+            <strong>Bắt buộc</strong> phải nhập
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-6">
+          <mat-label> Số điện thoại</mat-label>
+          <input matInput formControlName="phone" required>
+          <mat-error
+            *ngIf="rf.controls.phone.dirty && rf.controls.phone.hasError('required')">
+            <strong>Bắt buộc</strong> phải nhập
+          </mat-error>
+          <mat-error
+            *ngIf="rf.controls.phone.dirty && rf.controls.phone.hasError('pattern')">
+            Số điện thoại không đúng
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-12">
+          <mat-label> Địa chỉ</mat-label>
+          <input matInput formControlName="address" placeholder="Nhập địa chỉ của khách hàng" required>
+          <mat-error
+            *ngIf="rf.controls.address.dirty && rf.controls.address.hasError('required')">
+            <strong>Bắt buộc</strong> phải nhập
+          </mat-error>
+          <mat-error
+            *ngIf="rf.controls.address.dirty && rf.controls.address.hasError('maxlength')">
+            Không nhiều hơn 1000 ký tự
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="col-12">
+          <mat-label> Nhóm khách hàng</mat-label>
+          <mat-select formControlName="customerTypeId" required>
+            <mat-option *ngFor="let type of customerTypes" [value]="type.customerTypeId">
+              {{ type.customerType }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="rf.controls.customerTypeId.dirty && rf.controls.customerTypeId.hasError('required')">
+            <strong>Bắt buộc</strong> phải chọn
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="button-row">
+        <button type="button" mat-raised-button matTooltip="Lưu" [mat-dialog-close]="true"
+                class="btn me-2 mb-1" color="primary" (click)="save()" [disabled]="rf.invalid||isLoading"> Lưu
+        </button>
+      </div>
+    </div>
+  </mat-dialog-content>
+</form>

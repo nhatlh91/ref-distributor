@@ -1,0 +1,37 @@
+<div class="container-fluid card text-center">
+  <div class=" text-center" style="color: #3f51b5">
+    <h2>THANH TOÁN CÔNG NỢ </h2>
+  </div>
+  <form *ngIf="customer" [formGroup]="rf" class="container">
+    <div class="row">
+      <mat-form-field appearance="outline" class="col-6">
+        <mat-label> Khách hàng</mat-label>
+        <input matInput value="{{ customer.customerName }}" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-6">
+        <mat-label> Số điện thoại</mat-label>
+        <input matInput value="{{ customer.phone }}" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-12">
+        <mat-label> Công nợ</mat-label>
+        <input matInput value="{{ customer.accountsReceivable | number }}" readonly>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="col-12">
+        <mat-label> Thanh toán</mat-label>
+        <input matInput formControlName='amount' cdkFocusInitial required>
+        <mat-error *ngIf="rf.controls.amount.dirty && rf.controls.amount.hasError('required')">
+          <strong>Bắt buộc</strong> phải nhập
+        </mat-error>
+        <mat-error *ngIf="rf.controls.amount.dirty && rf.controls.amount.hasError('max')">
+          Số tiền thu không thể lớn hơn công nợ hiện có
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <div class="button-row">
+      <button mat-raised-button type="button" mat-dialog-close="true" class="me-2"> Hủy</button>
+      <button type="button" mat-raised-button matTooltip="Lưu" [mat-dialog-close]="true"
+              class="btn me-2 mb-1" color="primary" (click)="save()" [disabled]="rf.invalid||isLoading"> Nhập
+      </button>
+    </div>
+  </form>
+</div>

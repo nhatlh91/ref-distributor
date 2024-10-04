@@ -1,0 +1,48 @@
+<!-- SIDEBAR -->
+  <div class=" text-center d-flex justify-content-center">
+    <a class="brand mt-2">
+      <img src="assets/images/distribution.png" alt="" style="width: 120px;height: 50px">
+    </a>
+  </div>
+<hr>
+  <ul class="side-menu top">
+    <li class="">
+      <a routerLink="/dashboard">
+        <i class='bx bxs-dashboard' ></i>
+        <span class="text">Tổng quan</span>
+      </a>
+    </li>
+    <li class="">
+      <a routerLink="/warehouse">
+        <i class='bx bxs-calendar-check'></i>
+        <span class="text">Kho hàng</span>
+      </a>
+    </li>
+    <li class="">
+      <a routerLink="/account-receivable">
+        <i class='bx bxs-group'></i>
+        <span class="text">Khách hàng</span>
+      </a>
+    </li>
+    <li class="">
+      <a routerLink="/report">
+        <i class='bx bxs-report'></i>
+        <span class="text">Báo cáo</span>
+      </a>
+    </li>
+  </ul>
+  <ul class="side-menu footer">
+<!--    <li>-->
+<!--      <a >-->
+<!--        <i class='bx bxs-cog' ></i>-->
+<!--        <span class="text">Thiết lập</span>-->
+<!--      </a>-->
+<!--    </li>-->
+    <li>
+      <a href="/" class="logout" (click)="signOut()">
+        <i class='bx bxs-log-out-circle' ></i>
+        <span class="text">Đăng xuất</span>
+      </a>
+    </li>
+  </ul>
+<!-- SIDEBAR -->

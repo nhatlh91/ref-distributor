@@ -1,0 +1,95 @@
+<div class="card container-fluid">
+  <div class=" text-center" style="color: #3f51b5">
+    <h2> CHI TIẾT XUẤT HÀNG THEO KHÁCH </h2>
+  </div>
+  <div>
+    <form [formGroup]="rf">
+      <div class="row">
+        <div class="col-7">
+          <mat-form-field>
+            <mat-label>Nhập từ khóa tìm kiếm</mat-label>
+            <input matInput (keyup)="applyFilter($event.target.value)">
+          </mat-form-field>
+        </div>
+        <div class="col-2">
+<!--          <mat-form-field>-->
+<!--            <mat-label>Khách hàng</mat-label>-->
+<!--            <mat-select formControlName="customerId" required (selectionChange)="loadData()">-->
+<!--              <mat-option *ngFor="let customer of customers" [value]="customer.customer_Id">-->
+<!--                {{ customer.customer_Name }}-->
+<!--              </mat-option>-->
+<!--            </mat-select>-->
+<!--            <mat-error-->
+<!--              *ngIf="rf.controls.customerId.dirty && rf.controls.customerId.hasError('required')">-->
+<!--              <strong>Bắt buộc</strong> phải chọn-->
+<!--            </mat-error>-->
+<!--          </mat-form-field>-->
+
+          <mat-form-field >
+            <mat-label>Khách hàng</mat-label>
+            <input type="text" matInput required
+                   [formControl]="customer"
+                   [matAutocomplete]="autoA"
+                   (focusout)="changeCustomer()">
+            <mat-autocomplete #autoA="matAutocomplete" [displayWith]="displayCustomer">
+              <mat-option *ngFor="let option of filteredCustomer | async" [value]="option">
+                {{ option.customerName }}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="col-1">
+          <mat-form-field>
+            <mat-label>Tháng</mat-label>
+            <input matInput type="number" formControlName="month">
+          </mat-form-field>
+        </div>
+        <div class="col-1">
+          <mat-form-field>
+            <mat-label>Năm</mat-label>
+            <input matInput type="number" formControlName="year">
+          </mat-form-field>
+        </div>
+        <div class="col-1 text-center d-flex align-items-center">
+          <button mat-icon-button mat-mini-fab matTooltip="TÌM KIẾM"
+                  class="btn me-2 mb-1" color="primary" [disabled]="rf.invalid" (click)="loadData()">
+            <mat-icon>search</mat-icon>
+          </button>
+          <button mat-icon-button mat-mini-fab matTooltip="XUẤT FILE EXCEL"
+                  class="btn me-2 mb-1" color="primary" (click)="onExportExcelClicked()">
+            <mat-icon>file_download</mat-icon>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <h2 *ngIf="!length" class="alert alert-danger text-blue text-center">KHÔNG TÌM THẤY DỮ LIỆU TƯƠNG ỨNG</h2>
+  <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl scroll-table">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%">
+      <ng-container matColumnDef="postingDate">
+        <th mat-header-cell *matHeaderCellDef> NGÀY XUẤT HÀNG</th>
+        <td mat-cell *matCellDef="let item"> {{ item.postingDate}}</td>
+      </ng-container>
+      <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef> SẢN PHẨM</th>
+        <td mat-cell *matCellDef="let item"> {{ item.productName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef> SỐ LƯỢNG</th>
+        <td mat-cell *matCellDef="let item"> {{ item.quantity | number }}</td>
+      </ng-container>
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef> DOANH THU</th>
+        <td mat-cell *matCellDef="let item"> {{ item.amount | number }}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let myRowData; columns: displayedColumns"></tr>
+    </table>
+  </div>
+  <div>
+    <mat-paginator [length]="length"
+                   [pageSize]="10"
+                   [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,202 @@
+<div class="card">
+  <div class="d-flex flex-column h-100">
+    <h2 class="text-center">PHIẾU XUẤT KHO</h2>
+  </div>
+  <form [formGroup]="voucherForm">
+      <!--Header-->
+      <div class="row">
+        <mat-form-field class="col-2" appearance="outline">
+          <mat-label>Ngày chứng từ</mat-label>
+          <input matInput value="{{postingDate}}" readonly>
+        </mat-form-field>
+
+        <mat-form-field class="col-2" appearance="outline">
+          <mat-label>Số chứng từ</mat-label>
+          <input matInput type="text" formControlName="voucherCode" readonly>
+        </mat-form-field>
+
+        <mat-form-field class="col-2" appearance="outline">
+          <mat-label>Người lập phiếu</mat-label>
+          <input matInput type="text" formControlName="createdBy" readonly>
+        </mat-form-field>
+
+        <mat-form-field class="col-2" appearance="outline">
+          <mat-label>Khách hàng</mat-label>
+          <input matInput type="text" value="{{selectedCustomer?.customerName}}" readonly>
+        </mat-form-field>
+
+        <mat-form-field class="col-2" appearance="outline">
+          <mat-label>Kênh giá</mat-label>
+          <input matInput type="text" value="{{selectedCustomer?.customerType}}" readonly>
+        </mat-form-field>
+
+        <mat-form-field class="col-2" appearance="outline">
+          <mat-label>Công nợ</mat-label>
+          <input matInput type="text" value="{{selectedCustomer?.accountsReceivable|number}}" readonly>
+        </mat-form-field>
+
+        <mat-form-field class="col-12" appearance="outline">
+          <mat-label>Diễn giải</mat-label>
+          <input matInput type="text" formControlName="description" readonly>
+        </mat-form-field>
+      </div>
+      <!--Header-->
+
+      <!--Table-->
+      <div class="row mb-2">
+        <div formArrayName="details">
+          <div class="input-group">
+            <mat-form-field appearance="fill" class="" style="width: 5%;">
+              <mat-label>#</mat-label>
+              <input matInput type="text" value="" readonly>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="" style="width: 25%;">
+              <mat-label>Tên hàng hóa</mat-label>
+              <input matInput type="text" value="" readonly>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="" style="width: 9%;">
+              <mat-label>Đơn vị tính</mat-label>
+              <input matInput type="text" value="" readonly>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="" style="width: 10%;">
+              <mat-label>Tồn khả dụng</mat-label>
+              <input matInput type="text" value="" readonly>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="" style="width: 12%;">
+              <mat-label>Đơn giá</mat-label>
+              <input matInput type="text" value="" readonly>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="" style="width: 12%;">
+              <mat-label>Số lượng xuất</mat-label>
+              <input matInput type="text" value="" readonly>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="" style="width: 10%;">
+              <mat-label>Số Thùng</mat-label>
+              <input matInput type="text" value="" readonly>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="" style="width: 12%;">
+              <mat-label>Thành tiền</mat-label>
+              <input matInput type="text" value="" readonly>
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="" style="width: 5%;">
+              <mat-label></mat-label>
+              <input matInput type="text" value="" readonly>
+            </mat-form-field>
+          </div>
+
+          <div *ngFor="let item of details; let i = index">
+            <div [formGroupName]="i">
+              <div class="input-group">
+                <mat-form-field appearance="" class="" style="width: 5%;">
+                  <mat-label></mat-label>
+                  <input matInput type="text" value="{{i+1}}" readonly>
+                </mat-form-field>
+
+                <mat-form-field appearance="" class="" style="width: 25%;">
+                  <mat-label></mat-label>
+                  <input matInput type="text" formControlName="productName" readonly>
+                </mat-form-field>
+
+                <mat-form-field appearance="" class="" style="width: 9%;">
+                  <mat-label></mat-label>
+                  <input matInput type="text" formControlName="unit" readonly>
+                </mat-form-field>
+
+                <mat-form-field appearance="" class="" style="width: 10%;">
+                  <mat-label></mat-label>
+                  <input matInput type="number" formControlName="remainingQuantity" readonly>
+                </mat-form-field>
+
+                <mat-form-field appearance="" class="" style="width: 12%;">
+                  <mat-label></mat-label>
+                  <input matInput type="number" formControlName="unitPrice" readonly
+                         (input)="calculateRowTotal(item)">
+                </mat-form-field>
+
+                <mat-form-field appearance="" class="" style="width: 12%;">
+                  <mat-label></mat-label>
+                  <input matInput type="number" formControlName="quantity" required
+                         (input)="calculateRowTotal(item)"
+                         (focusout)="changeQuantity(item)">
+                  <mat-error *ngIf="voucherForm.get('details').get(i.toString()).get('quantity')
+                .hasError('min')">Số lượng phải lớn hơn: 0
+                  </mat-error>
+                </mat-form-field>
+
+                <mat-form-field appearance="" class="" style="width: 12%;">
+                  <mat-label></mat-label>
+                  <input matInput type="text" [value]="(item.get('catchWeight').value)|number" readonly>
+                </mat-form-field>
+
+                <mat-form-field appearance="" class="" style="width: 12%;">
+                  <mat-label></mat-label>
+                  <input matInput type="text" [value]="(item.get('rowTotalAmount').value)|number" readonly>
+                </mat-form-field>
+
+                <button type="button" mat-icon-button color="warn" matTooltip="Xóa dòng" (click)="removeItem(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--Table-->
+
+    <div align="center">
+      <div class="col-12 d-flex justify-content-center">
+        <div class="col-3 mb-4 search-box">
+          <!--          <mat-form-field appearance="" class="col-3">-->
+          <!--            <mat-label>Thêm sản phẩm</mat-label>-->
+          <input type="text"
+                 class="p-2"
+                 placeholder="Thêm sản phẩm..."
+                 matInput [formControl]="searchProduct"
+                 [matAutocomplete]="auto"
+                 (focusin)="changeItemSelected()">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayProduct">
+            <mat-option *ngFor="let option of filteredProduct | async" [value]="option">
+              {{ option.productName }}
+            </mat-option>
+          </mat-autocomplete>
+          <!--          </mat-form-field>-->
+        </div>
+      </div>
+
+      <div class="col-12 d-flex justify-content-center">
+        <mat-form-field class="col-3 me-2" appearance="outline">
+          <mat-label>Tiền hàng:</mat-label>
+          <input matInput type="text" class=""
+                 [value]="(voucherForm.get('preTotalAmount').value)|number" readonly>
+        </mat-form-field>
+
+        <mat-form-field class="col-3 me-2" appearance="outline">
+          <mat-label>Chiết khấu:</mat-label>
+          <input matInput type="text" class=""
+                 formControlName="discount"
+                 (input)="calculateTotalAmount()">
+        </mat-form-field>
+
+        <mat-form-field class="col-3" appearance="outline">
+          <mat-label>Tổng thanh toán:</mat-label>
+          <input matInput type="text" class=""
+                 [value]="(voucherForm.get('totalAmount').value)|number" readonly>
+        </mat-form-field>
+      </div>
+
+      <div class="col-12 mb-3">
+        <button mat-raised-button type="button" class="me-2" routerLink="/warehouse/export">
+          Hủy
+        </button>
+        <button mat-raised-button color="primary" class="me-2"
+                [disabled]="voucherForm.invalid || isValid==false" type="submit" (click)="save()"> Lưu
+        </button>
+      </div>
+
+      <div class="col-12 text-red">{{ message }}</div>
+      <div class="col-12 text-red mb-3">{{ messageForCustomer }}</div>
+    </div>
+  </form>
+</div>
+<!--<pre>{{ voucherDetails|json }}</pre>-->
+<!--<pre>{{ products|json }}</pre>-->

@@ -1,0 +1,50 @@
+<div class="container-fluid">
+  <div id="sidebar" [class.hide]="isHidden">
+    <app-menu></app-menu>
+  </div>
+
+  <div id="content" class="">
+    <!-- NAVBAR -->
+    <nav>
+      <div class="head-title d-flex align-items-center">
+        <mat-slide-toggle color="primary" (click)="toggleSidebar()"></mat-slide-toggle>
+        <h2 class="m-0 ms-3" style="color: white">BÁO CÁO</h2>
+      </div>
+    </nav>
+
+    <div class="dropdown d-inline-flex mb-1 mt-1 ms-0">
+      <button mat-button mat-raised-button color="" class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false"> Chọn báo cáo
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <a mat-button class="dropdown-item text-start" routerLink="/report">
+            <i class='bx bx-menu'></i> Sổ chi tiết công nợ khách hàng </a>
+        </li>
+        <li>
+          <a mat-button class="dropdown-item text-start" routerLink="/report/purchase-history">
+            <i class='bx bx-menu'></i> Sổ chi tiết hàng hoá nhập kho </a>
+        </li>
+        <li>
+          <a mat-button class="dropdown-item text-start" routerLink="/report/sales-history">
+            <i class='bx bx-menu'></i> Sổ chi tết hàng hoá xuất kho </a>
+        </li>
+        <li>
+          <a mat-button class="dropdown-item text-start" routerLink="/report/gross-profit-history">
+            <i class='bx bx-menu'></i> Báo cáo lợi nhuận gộp </a>
+        </li>
+        <li>
+          <a mat-button class="dropdown-item text-start" routerLink="/report/sales-detail-by-customer">
+            <i class='bx bx-menu'></i> Chi tiết bán hàng theo khách hàng </a>
+        </li>
+        <li>
+          <a mat-button class="dropdown-item text-start" routerLink="/report/item-ledger-entry">
+            <i class='bx bx-menu'></i> Lịch sử giao dịch hàng hóa </a>
+        </li>
+      </ul>
+    </div>
+
+    <router-outlet></router-outlet>
+
+  </div>
+</div>

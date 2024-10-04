@@ -1,0 +1,100 @@
+<div class="container-fluid card text-center">
+  <div class=" text-center" style="color: #3f51b5">
+    <h2>THÊM MỚI SẢN PHẨM</h2>
+  </div>
+  <form [formGroup]="rf">
+    <div class="row">
+      <mat-form-field appearance="outline" class="col-4">
+        <mat-label> Tên gọi</mat-label>
+        <input matInput formControlName="productName" placeholder="Nhập tên hàng hoá" required>
+        <mat-error *ngIf="rf.controls.productName.dirty && rf.controls.productName.hasError('required')">
+          <strong>Bắt buộc</strong> phải nhập
+        </mat-error>
+        <mat-error
+          *ngIf="rf.controls.productName.dirty && rf.controls.productName.hasError('maxlength')">
+          Tên vật tư tối đa 250 ký tự
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-2">
+        <mat-label> Đơn vị tính</mat-label>
+        <input matInput formControlName="unit" placeholder="Nhập đơn vị tính" required>
+        <mat-error
+          *ngIf="rf.controls.unit.dirty && rf.controls.unit.hasError('required')">
+          <strong>Bắt buộc</strong> phải nhập
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-2">
+        <mat-label> Mã vạch</mat-label>
+        <input matInput formControlName="barcode" placeholder="Nhập mã vạch">
+        <mat-error
+          *ngIf="rf.controls.barcode.dirty && rf.controls.barcode.hasError('pattern')">
+          Không đúng định dạng
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-2">
+        <mat-label> Quy cách</mat-label>
+        <input matInput formControlName="packingSpecifications" type="number" placeholder="Nhập quy cách đóng thùng" required>
+        <mat-error
+          *ngIf="rf.controls.packingSpecifications.dirty && rf.controls.packingSpecifications.hasError('required')">
+          <strong>Bắt buộc</strong> phải nhập
+        </mat-error>
+        <mat-error
+          *ngIf="rf.controls.packingSpecifications.dirty && rf.controls.packingSpecifications.hasError('pattern')">
+          Không đúng định dạng
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="col-2">
+        <mat-label> Ngành hàng</mat-label>
+        <mat-select formControlName="productTypeId" required>
+          <mat-option *ngFor="let type of productTypes" [value]="type.productTypeId">
+            {{ type.productType }}
+          </mat-option>
+        </mat-select>
+        <mat-error
+          *ngIf="rf.controls.productTypeId.dirty && rf.controls.productTypeId.hasError('required')">
+          <strong>Bắt buộc</strong> phải chọn
+        </mat-error>
+      </mat-form-field>
+
+      <div class="col-12">
+        <div formArrayName="quotations">
+          <table class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl
+        table table-bordered scroll-table ">
+            <thead class="table-active">
+            <tr>
+              <td>KÊNH GIÁ</td>
+              <td>GIÁ BÁN</td>
+            </tr>
+            </thead>
+            <tbody *ngFor="let type of quotations; let i = index" class="text-start">
+            <tr [formGroupName]="i">
+              <td>
+                <input matInput type="text" formControlName="customerTypeName" readonly>
+              </td>
+              <td>
+                <input matInput type="nummber" formControlName="unitPrice" >
+                <mat-error
+                  *ngIf="rf.get('quotations').get(i.toString()).get('unitPrice').hasError('min')">
+                  <i>Cảnh báo: Đơn giá phải lớn hơn 0 đồng</i>
+                </mat-error>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+    <div>
+      <div class="button-row">
+        <button type="button" mat-raised-button mat-dialog-close="true"
+                class="btn me-2 mb-1" color="primary" (click)="save()" [disabled]="rf.invalid || isLoading"> Lưu
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

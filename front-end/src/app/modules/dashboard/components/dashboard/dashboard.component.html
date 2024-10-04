@@ -1,0 +1,127 @@
+<div class="container-fluid">
+  <div id="sidebar" [class.hide]="isHidden">
+    <app-menu></app-menu>
+  </div>
+
+  <!-- CONTENT -->
+  <section id="content">
+    <!-- NAVBAR -->
+    <nav>
+      <div class="head-title d-flex align-items-center">
+        <mat-slide-toggle color="primary" (click)="toggleSidebar()"></mat-slide-toggle>
+        <h2 class="m-0 ms-3" style="color: white">TỔNG QUAN</h2>
+      </div>
+    </nav>
+    <!-- NAVBAR -->
+
+    <!-- MAIN -->
+    <main>
+      <ul class="box-info">
+        <li>
+          <i class='bx bxs-calendar-check'></i>
+          <span class="text">
+						<h2 class="text-secondary">{{ inventory|number }} </h2>
+						<p class="text-secondary">TỔNG TỒN KHO (đơn vị tính: đồng)</p>
+					</span>
+        </li>
+        <li>
+          <i class='bx bxs-group'></i>
+          <span class="text">
+						<h2 class="text-secondary">{{ receivables|number }} </h2>
+						<p class="text-secondary">TỔNG CÔNG NỢ (đơn vị tính: đồng)</p>
+					</span>
+        </li>
+        <li>
+          <i class='bx bx-cart'></i>
+          <span class="text">
+						<h2 class="text-secondary">{{ revenueOfYear|number }} </h2>
+						<p class="text-secondary">DOANH THU NĂM (đơn vị tính: đồng)</p>
+					</span>
+        </li>
+        <li>
+          <i class='bx bx-money'></i>
+          <span class="text">
+						<h2 class="text-secondary">{{ moneyOfYear|number }} </h2>
+						<p class="text-secondary">TIỀN ĐÃ THU NĂM (đơn vị tính: đồng)</p>
+					</span>
+        </li>
+      </ul>
+
+      <div class="table-data">
+        <div class="todo">
+          <div class="head">
+            <h2 class="text-success">DOANH THU HÀNG THÁNG</h2>
+            <p class="text-success">(đơn vị tính: đồng)</p>
+          </div>
+          <canvas id="incomeChart"></canvas>
+        </div>
+
+        <div class="todo">
+          <div class="head">
+            <h2 class="text-success">TIỀN ĐÃ THU HÀNG THÁNG</h2>
+            <p class="text-success">(đơn vị tính: đồng)</p>
+          </div>
+          <canvas id="lineChart"></canvas>
+        </div>
+      </div>
+
+      <div class="table-data">
+        <div class="todo mb-4">
+          <div class="head mb-0">
+            <h2 class="text-success">NHẬP TRONG THÁNG </h2>
+            <p class="text-success">(đơn vị tính: đồng)</p>
+          </div>
+
+          <div>
+            <mat-list>
+              <mat-list-item class="text-success">Tổng tền hàng: {{ totalValues|number }}</mat-list-item>
+              <mat-divider></mat-divider>
+            </mat-list>
+
+            <mat-list role="list" *ngFor="let option of importValues, let i = index">
+              <mat-list-item role="listitem" class="ps-5 text-secondary">
+                {{ i + 1 }}.
+                {{ option.productType }}: {{ option.amount|number }}
+              </mat-list-item>
+              <mat-divider></mat-divider>
+            </mat-list>
+<!--            {{importValues|json}}-->
+
+          </div>
+        </div>
+
+        <div class="todo mb-4">
+          <div class="head mb-0">
+            <h2 class="text-success">DOANH THU NGÀY</h2>
+            <p class="text-success">(đơn vị tính: đồng)</p>
+          </div>
+          <div>
+            <mat-list>
+              <mat-list-item class="text-success">Tổng doanh thu: {{ dailyRevenue|number }}</mat-list-item>
+              <mat-divider></mat-divider>
+            </mat-list>
+
+            <mat-list role="list" *ngFor="let option of dailyRevenues, let i = index">
+              <mat-list-item role="listitem" class="ps-5 text-secondary">
+                {{ i + 1 }}.
+                {{ option.productType }}:
+                {{ option.revenue|number }}
+              </mat-list-item>
+              <mat-divider></mat-divider>
+            </mat-list>
+<!--            {{dailyRevenues|json}}-->
+
+            <mat-list>
+              <mat-list-item class="text-success">Tiền đã thu: {{ dailyMoney|number }}</mat-list-item>
+              <mat-divider></mat-divider>
+            </mat-list>
+
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- MAIN -->
+  </section>
+  <!-- CONTENT -->
+</div>

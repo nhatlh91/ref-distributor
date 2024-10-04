@@ -1,0 +1,23 @@
+<div class="bg-img">
+  <div class="card content">
+    <form [formGroup]="rf" (ngSubmit)="onSubmit()">
+      <img src="assets/images/distribution.png" alt="" style="width: 200px"><br>
+      <mat-form-field appearance="fill" style="width: 300px" class="mt-4">
+        <mat-label>Tài khoản</mat-label>
+        <input matInput required formControlName="phone">
+      </mat-form-field>
+
+      <mat-form-field appearance="fill" style="width: 300px">
+        <mat-label>Mật khẩu</mat-label>
+        <input matInput type="password" required formControlName="password">
+      </mat-form-field>
+      <div>
+        <button *ngIf="!isLoading" mat-button mat-raised-button color="primary" [disabled]="rf.invalid" type="submit">ĐĂNG NHẬP</button>
+        <button *ngIf="isLoading" mat-button disabled>ĐANG KIỂM TRA THÔNG TIN</button>
+      </div>
+    </form>
+  </div>
+  <footer class="  py-3">
+    Copyright © 2024. All rights reserved. Developed by BizUp Technology Solution Co. Ltd
+  </footer>
+</div>

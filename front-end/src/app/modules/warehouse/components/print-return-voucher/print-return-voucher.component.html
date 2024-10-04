@@ -1,0 +1,94 @@
+
+<mat-dialog-content class="" style="overflow: auto; height: 1000px;">
+  <div class="container-fluid" #htmlContent id="printContent" >
+    <div class="row">
+      <div class="col-8">
+        <div class="text-start inline">
+          <p> NPP Lê Lê Trí - Chuyên cung cấp mì cay, gia vị, thực phẩm, hàng đông lạnh</p>
+        </div>
+        <div class="text-start inline">
+          <p> Địa chỉ: 63 Kha Vạn Cân, Hòa Phước, Hòa Vang, Đà Nẵng </p>
+        </div>
+        <div class="text-start inline">
+          <p> SĐT: 0905.811.557 - 0935.150.153 (Chị Sen) </p>
+        </div>
+        <div class="text-start inline">
+          <p> STK: 0041000238249 - Vietcombank </p>
+        </div>
+      </div>
+      <div class="col-4 d-flex justify-content-end">
+        <img src="assets/images/qrcode.png" alt="" style="width: 75px; height: 75px">
+      </div>
+      <hr>
+      <div class="col-3"></div>
+      <div class="col-6 mt-2 d-flex justify-content-center">
+        <div class="text-center fs-6 inline-elements">
+          <h2> PHIẾU TRẢ HÀNG </h2>
+          <h4><i>Ngày {{ day }} tháng {{ month }} năm {{ year }} </i></h4><br>
+          <h4> <i>Số: {{ voucher.voucherCode }} </i></h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 mb-1 inline-elements ">
+      <p> - Khách hàng: </p> <p> {{ voucher.customerName }} </p> &nbsp;&nbsp;&nbsp; <p> Mô tả: </p>
+      <p> {{voucher.description}} </p> <br>
+    </div>
+
+    <div class="mt-1 mb-1 inline-elements">
+      <table class="table small">
+        <thead class="align-middle text-center">
+        <tr>
+          <td class="" rowspan="2" style="width: 5%;"> No.</td>
+          <td class="" rowspan="2" style="width: 40%;"> Tên hàng hoá</td>
+          <td class="" rowspan="2" style="width: 10%;"> ĐVT</td>
+          <td class="" rowspan="2" style="width: 10%;"> Số lượng nhập</td>
+          <td class="" rowspan="2" style="width: 10%;"> Số thùng</td>
+          <td class="" rowspan="2" style="width: 10%;"> Đơn giá</td>
+          <td class="" rowspan="2" style="width: 15%;"> Thành tiền</td>
+        </tr>
+        </thead>
+        <tbody *ngFor="let item of details; let i = index" class="text-center">
+        <tr>
+          <td> {{ i + 1 }}</td>
+          <td class="text-start"> {{ getProductName(item.productId) }}</td>
+          <td> {{ getUnit(item.productId) }}</td>
+          <td> {{ item.quantity|number }}</td>
+          <td> {{ item.quantity / getPackingSpecifications(item.productId)|number }}</td>
+          <td> {{ item.unitPrice|number }}</td>
+          <td> {{ item.quantity * item.unitPrice|number }}</td>
+        </tr>
+        </tbody>
+        <tbody class="text-center">
+        <tr>
+          <td></td>
+          <td>Tổng cộng:</td>
+          <td>-</td>
+          <td>-</td>
+          <td>
+            <input matInput type="text" [value]="totalQuantityPerPack|number" readonly>
+          </td>
+          <td>-</td>
+          <td><input matInput type="text" value="{{voucher.totalAmount|number}}" readonly></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="mt-1 footer ">
+      <div><p> Nhân viên nhận hàng </p>
+        <i>(Ký, họ tên)</i>
+      </div>
+      <div><p> Người giao hàng </p>
+        <i>(Ký, họ tên)</i>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-icon-button type="button" matTooltip="In" color="primary"
+          printSectionId="printContent" ngxPrint
+          [useExistingCss]="true">
+    <mat-icon>print</mat-icon>
+  </button>
+</mat-dialog-actions>

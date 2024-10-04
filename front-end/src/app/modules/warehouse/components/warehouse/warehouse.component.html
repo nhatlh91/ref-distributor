@@ -1,0 +1,93 @@
+<div class="container-fluid">
+  <div id="sidebar" [class.hide]="isHidden">
+    <app-menu></app-menu>
+  </div>
+
+  <div id="content">
+    <!-- NAVBAR -->
+    <nav>
+      <div class="head-title d-flex align-items-center">
+        <mat-slide-toggle color="primary" (click)="toggleSidebar()"></mat-slide-toggle>
+        <h2 class="m-0 ms-3" style="color: white"> KHO HÀNG </h2>
+      </div>
+    </nav>
+    <!-- NAVBAR -->
+
+    <div class="dropdown d-inline-flex mb-1">
+      <button mat-button mat-raised-button color="" class="btn " type="button" data-bs-toggle="dropdown"
+              aria-expanded="false" routerLink="/warehouse"> Bảng giá
+      </button>
+    </div>
+
+    <div class="dropdown d-inline-flex mb-1 ms-1">
+      <button mat-button mat-raised-button color="" class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false"> Sản phẩm
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <a mat-button class="dropdown-item text-start" routerLink="/warehouse/product">
+            <i class='bx bx-menu'></i> Danh sách</a>
+        </li>
+        <li>
+          <a mat-button class="dropdown-item text-start" routerLink="/warehouse/inventory">
+            <i class='bx bx-calendar-check'></i> Tồn kho</a>
+        </li>
+        <li>
+          <a mat-button class="dropdown-item text-start" routerLink="/warehouse/product-type">
+            <i class='bx bx-purchase-tag'></i> Ngành hàng</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="dropdown d-inline-flex mb-1 mt-1 ms-1">
+      <button mat-button mat-raised-button color="" class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false"> Nhập hàng
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <a mat-button class="dropdown-item text-start" routerLink="/warehouse/create-import">
+            <i class='bx bx-plus-circle'></i> Nhập hàng</a>
+        </li>
+        <li>
+          <a mat-button class="dropdown-item text-start" routerLink="/warehouse/import">
+            <i class='bx bx-menu'></i> Lịch sử nhập</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="dropdown d-inline-flex mb-1 mt-1 ms-1">
+      <button mat-button mat-raised-button color="" class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false"> Xuất hàng
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <a mat-button class="dropdown-item text-start" routerLink="/warehouse/create-export">
+            <i class='bx bx-minus-circle'></i> Xuất hàng</a>
+        </li>
+        <li>
+          <a mat-button class="dropdown-item text-start" routerLink="/warehouse/export">
+            <i class='bx bx-menu'></i> Lịch sử xuất</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="dropdown d-inline-flex mb-1 mt-1 ms-1">
+      <button mat-button mat-raised-button color="" class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown"
+              aria-expanded="false"> Trả hàng
+      </button>
+      <ul class="dropdown-menu">
+        <li>
+          <a mat-button class="dropdown-item text-start" routerLink="/warehouse/create-return">
+            <i class='bx bx-plus-circle'></i> Trả hàng</a>
+        </li>
+        <li>
+          <a mat-button class="dropdown-item text-start" routerLink="/warehouse/return">
+            <i class='bx bx-menu'></i> Lịch sử trả</a>
+        </li>
+      </ul>
+    </div>
+
+    <router-outlet></router-outlet>
+
+  </div>
+</div>

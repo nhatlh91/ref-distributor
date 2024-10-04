@@ -1,0 +1,40 @@
+@media print {
+  @page {
+    size: A4; /* Thiết lập khổ giấy A4 */
+    margin: 5mm 5mm 5mm 5mm;  /* Thiết lập lề 5mm */
+    color: black;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-size: 24px;
+  }
+}
+
+.footer {
+  text-align: center;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.footer strong {
+  display: block;
+  font-weight: bold;
+}
+
+.inline h4,
+.inline p {
+  display: inline;
+}
+
+.inline-elements h4,
+.inline-elements p {
+  display: inline;
+}
+
+.inline-elements h4 {
+  margin-right: 20px; /* Adjust the margin as needed */
+}
+
+table, th, td {
+  border: 1px solid black; /* Đóng khung bảng và các ô với đường viền đen 1px */
+}
+

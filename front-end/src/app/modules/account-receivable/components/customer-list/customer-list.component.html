@@ -1,0 +1,79 @@
+<div class="card container-fluid">
+  <div class=" text-center">
+    <h2>TỔNG HỢP CÔNG NỢ KHÁCH HÀNG</h2>
+  </div>
+  <div class="row">
+    <div class="col-11">
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Tìm kiếm">
+      </mat-form-field>
+    </div>
+    <div class="col-1 text-center">
+      <a mat-icon-button mat-mini-fab matTooltip="TẠO KHÁCH HÀNG MỚI"
+         class="btn mb-1 me-2" color="primary"
+         (click)="customerCreate()">
+        <mat-icon>person_add</mat-icon>
+      </a>
+      <a *ngIf="length" mat-icon-button mat-mini-fab matTooltip="XUẤT FILE EXCEL"
+         class="btn mb-1" color="primary"
+         (click)="onExportExcelClicked()">
+        <mat-icon>file_download</mat-icon>
+      </a>
+    </div>
+  </div>
+  <h2 *ngIf="!length" class="alert alert-danger text-blue text-center">KHÔNG TÌM THẤY DỮ LIỆU TƯƠNG ỨNG</h2>
+  <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl scroll-table">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width: 100%">
+      <ng-container matColumnDef="customerName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> TÊN KHÁCH HÀNG</th>
+        <td mat-cell *matCellDef="let item"> {{ item.customerName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="customerType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> NHÓM</th>
+        <td mat-cell *matCellDef="let item"> {{ item.customerType }}</td>
+      </ng-container>
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef> SỐ ĐIỆN THOẠI</th>
+        <td mat-cell *matCellDef="let item"> {{ item.phone }}</td>
+      </ng-container>
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef> ĐỊA CHỈ</th>
+        <td mat-cell *matCellDef="let item"> {{ item.address }}</td>
+      </ng-container>
+      <ng-container matColumnDef="accountsReceivable">
+        <th mat-header-cell *matHeaderCellDef> CÔNG NỢ</th>
+        <td mat-cell *matCellDef="let item"> {{ item.accountsReceivable | number : '1.0-0' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> THAO TÁC</th>
+        <td mat-cell *matCellDef="let item">
+          <a mat-icon-button matTooltip="Lịch sử thanh toán"
+             (click)="paymentHistory(item.customerId)">
+            <mat-icon class="fs-4">history</mat-icon>
+          </a>
+          <a mat-icon-button matTooltip="Cập nhật thông tin" *ngIf="decryptedRole==='ADMIN'"
+             (click)="edit(item.customerId)">
+<!--            <mat-icon>edit</mat-icon>-->
+            <i class='bx bxs-edit fs-5 '></i>
+          </a>
+          <a color="warn" *ngIf="item.accountsReceivable == 0 && decryptedRole==='ADMIN'" mat-icon-button matTooltip="Xoá"
+             (click)="delete(item.customerId)" >
+            <mat-icon>delete_forever</mat-icon>
+          </a>
+          <a *ngIf="item.accountsReceivable !== 0" mat-icon-button matTooltip="Thanh toán công nợ"
+             (click)="updateReceivables(item.customerId)" >
+            <mat-icon class="fs-5">currency_exchange</mat-icon>
+          </a>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let myRowData; columns: displayedColumns"></tr>
+    </table>
+  </div>
+  <div>
+    <mat-paginator [length]="length"
+                   [pageSize]="10"
+                   [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+<div class="card container-fluid">
+  <div class=" text-center" style="color: #3f51b5">
+    <h2>DANH SÁCH PHIẾU NHẬP</h2>
+  </div>
+  <div>
+    <form [formGroup]="rf">
+      <div class="row">
+        <div class="col-9">
+          <mat-form-field>
+            <mat-label>Nhập từ khóa tìm kiếm</mat-label>
+            <input matInput (keyup)="applyFilter($event.target.value)">
+          </mat-form-field>
+        </div>
+        <div class="col-1">
+          <mat-form-field>
+            <mat-label>Tháng</mat-label>
+            <input matInput type="number" formControlName="month">
+          </mat-form-field>
+        </div>
+        <div class="col-1">
+          <mat-form-field>
+            <mat-label>Năm</mat-label>
+            <input matInput type="number" formControlName="year">
+          </mat-form-field>
+        </div>
+        <div class="col-1 text-center">
+          <button type="submit" mat-icon-button mat-mini-fab matTooltip="Tìm"
+                  class="btn me-2 mb-1" color="primary" [disabled]="rf.invalid" (click)="loadVouchers()">
+            <mat-icon>search</mat-icon>
+          </button>
+
+        </div>
+      </div>
+    </form>
+  </div>
+  <h2 *ngIf="!length" class="alert alert-danger text-blue text-center">KHÔNG TÌM THẤY DỮ LIỆU TƯƠNG ỨNG</h2>
+  <div class="table-responsive-sm table-responsive-md table-responsive-lg table-responsive-xl scroll-table">
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width: 100%">
+      <ng-container matColumnDef="postingDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> NGÀY NHẬP</th>
+        <td mat-cell *matCellDef="let item"> {{ item.postingDate }}</td>
+      </ng-container>
+      <ng-container matColumnDef="voucherCode">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> SỐ PHIẾU</th>
+        <td mat-cell *matCellDef="let item"> {{ item.voucherCode }}</td>
+      </ng-container>
+      <ng-container matColumnDef="billing">
+        <th mat-header-cell *matHeaderCellDef> SỐ HÓA ĐƠN</th>
+        <td mat-cell *matCellDef="let item"> {{ item.billing }}</td>
+      </ng-container>
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> MÔ TẢ</th>
+        <td mat-cell *matCellDef="let item"> {{ item.description }}</td>
+      </ng-container>
+      <ng-container matColumnDef="totalAmount">
+        <th mat-header-cell *matHeaderCellDef> TỔNG GIÁ TRỊ</th>
+        <td mat-cell *matCellDef="let item"> {{ item.totalAmount | number }}</td>
+      </ng-container>
+      <ng-container matColumnDef="supplier">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> NHÀ CUNG CẤP</th>
+        <td mat-cell *matCellDef="let item"> {{ item.supplier }}</td>
+      </ng-container>
+      <ng-container matColumnDef="createdBy">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> NGƯỜI NHẬP</th>
+        <td mat-cell *matCellDef="let item"> {{ item.createdBy }}</td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> THAO TÁC</th>
+        <td mat-cell *matCellDef="let item">
+          <a mat-icon-button matTooltip="Chi tiết"
+             (click)="detail(item.voucherCode)">
+            <mat-icon>information</mat-icon>
+          </a>
+          <a mat-icon-button matTooltip="Sửa" *ngIf="decryptedRole==='ADMIN'" color="primary"
+             routerLink='/warehouse/edit-import/{{item.voucherCode}}'>
+            <i class='bx bx-edit fs-5'></i>
+          </a>
+          <a mat-icon-button matTooltip="Xoá" *ngIf="decryptedRole==='ADMIN'" color="warn"
+             (click)="delete(item.voucherCode)">
+            <mat-icon>delete_forever</mat-icon>
+          </a>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let myRowData; columns: displayedColumns"></tr>
+    </table>
+  </div>
+  <div>
+    <mat-paginator [length]="length"
+                   [pageSize]="10"
+                   [pageSizeOptions]="[5, 10, 25, 100]">
+    </mat-paginator>
+  </div>
+</div>
